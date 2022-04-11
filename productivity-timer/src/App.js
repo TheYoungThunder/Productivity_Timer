@@ -6,18 +6,18 @@ import Session from "./pages/Session";
 let ws = new WebSocket("ws://localhost:8080");
 
 function App() {
-  const [page, setPage] = useState("Main");
-  const [msg, setMsg] = useState("");
+    const [page, setPage] = useState("Main");
+    const [msg, setMsg] = useState("");
 
-  ws.addEventListener("message", ({ data }) => {
-    setMsg(data);
-  });
-  return (
-    <div>
-      {page === "Main" && <Main setPage={setPage} />}
-      {page === "Session" && <Session socket={ws} msg={msg} />}
-    </div>
-  );
+    ws.addEventListener("message", ({ data }) => {
+        setMsg(data);
+    });
+    return (
+        <>
+            {page === "Main" && <Main setPage={setPage} />}
+            {page === "Session" && <Session socket={ws} msg={msg} />}
+        </>
+    );
 }
 
 export default App;
