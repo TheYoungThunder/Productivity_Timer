@@ -2,11 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import { BrowserRouter } from "react-router-dom";
+import GlobalStateProvider from "./Context";
+
 //import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalStateProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </GlobalStateProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

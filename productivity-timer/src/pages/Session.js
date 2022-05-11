@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useGlobalState } from "../Context";
 export default function Session(props) {
+  const [state, dispatch] = useGlobalState();
   const [text, setText] = useState("");
   return (
     <>
@@ -16,7 +18,7 @@ export default function Session(props) {
       >
         Send
       </button>
-      <h1>{props.msg}</h1>
+      <h1>{state.msg}</h1>
     </>
   );
 }

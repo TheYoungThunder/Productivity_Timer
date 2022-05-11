@@ -1,22 +1,27 @@
-import logo from "./logo.svg";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Main from "./pages/Main";
 import Session from "./pages/Session";
-let ws = new WebSocket("ws://localhost:8080");
+import { Route, Routes } from "react-router-dom";
+import { useGlobalState } from "./Context";
 
 function App() {
-  const [page, setPage] = useState("Main");
-  const [msg, setMsg] = useState("");
+  const [state, dispatch] = useGlobalState();
 
-  ws.addEventListener("message", ({ data }) => {
-    setMsg(data);
-  });
+  useEffect(() => {
+    let ws = new WebSocket("ws://localhost:8080");
+    ws.addEventListener("message", ({ data }) => {
+      console.log(data);
+      dispatch({ ...state, msg: data });
+    });
+    dispatch({ ...state, ws });
+  }, []);
+
   return (
-    <>
-      {page === "Main" && <Main setPage={setPage} />}
-      {page === "Session" && <Session socket={ws} msg={msg} />}
-    </>
+    <Routes>
+      <Route path="/" element={<Main></Main>} />
+      <Route path="session" element={<Session></Session>} />
+    </Routes>
   );
 }
 

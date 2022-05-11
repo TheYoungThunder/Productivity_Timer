@@ -14,7 +14,12 @@ const wss = new WebSocketServer({ port: 8080 });
 wss.on("connection", function connection(ws) {
   //users.push(ws);
   ws.on("message", function message(data) {
-    let parsedData = JSON.parse(data);
+    let parsedData;
+    try {
+      parsedData = JSON.parse(data);
+    } catch (err) {
+      return;
+    }
     let session = sessions.find((s) => {
       return s.name === parsedData?.sessionName;
     });
@@ -82,5 +87,5 @@ setInterval(() => {
     // splice (index of start, how many elements to delete after the start)
     // users.splice(1, 1);
   }
-  console.log("There are", sessions.length, "sessions online");
+  // console.log("There are", sessions.length, "sessions online");
 }, 1000);
